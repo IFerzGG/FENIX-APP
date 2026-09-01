@@ -5,8 +5,9 @@
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "dev": "tsx watch src/index.ts",
-    "des": "tsx watch src/clase.ts",
+    "swagger": "tsx src/swagger.ts",
+    "dev": "npm run swagger && tsx watch src/index.ts",
+    "des": "npm run swagger && tsx watch src/clase.ts",
     "build": "tsc",
     "start": "node dist/index.js"
   },
@@ -17,10 +18,13 @@
   "devDependencies": {
     "@types/express": "^5.0.6",
     "@types/node": "^26.4.0",
+    "@types/swagger-ui-express": "^4.1.8",
+    "swagger-autogen": "^2.23.7",
     "tsx": "^4.23.12",
     "typescript": "^7.0.2"
   },
   "dependencies": {
-    "express": "^5.2.1"
+    "express": "^5.2.1",
+    "swagger-ui-express": "^5.0.1"
   }
 }

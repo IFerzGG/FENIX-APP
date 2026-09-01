@@ -1,0 +1,344 @@
+{
+  "swagger": "2.0",
+  "info": {
+    "title": "API de Inscripciones Academica",
+    "description": "Documentacion de la API REST del MP-S2",
+    "version": "1.0.0"
+  },
+  "host": "localhost:3000",
+  "basePath": "/",
+  "schemes": [
+    "http"
+  ],
+  "paths": {
+    "/api/estudiantes/status": {
+      "get": {
+        "description": "",
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
+    "/api/estudiantes/": {
+      "get": {
+        "tags": [
+          "Estudiantes"
+        ],
+        "summary": "Obtener todos los estudiantes o filtrarlos",
+        "description": "Endpoint para obtener todos los estudiantes o filtrarlos por nombre, email o bootcamp",
+        "parameters": [
+          {
+            "name": "nombre",
+            "in": "query",
+            "description": "Nombre del estudiante",
+            "type": "string"
+          },
+          {
+            "name": "email",
+            "in": "query",
+            "description": "Email del estudiante",
+            "type": "string"
+          },
+          {
+            "name": "bootcamp",
+            "in": "query",
+            "description": "Bootcamp del estudiante",
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "default": {
+            "description": ""
+          }
+        }
+      },
+      "post": {
+        "tags": [
+          "Estudiantes"
+        ],
+        "summary": "Crear un nuevo estudiante",
+        "description": "Endpoint para crear un nuevo estudiante",
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "description": "Datos del nuevo estudiante",
+            "required": true,
+            "schema": {
+              "type": "object",
+              "properties": {
+                "nombre": {
+                  "type": "string",
+                  "example": "Juan Perez"
+                },
+                "email": {
+                  "type": "string",
+                  "example": "juan.perez@example.com"
+                },
+                "bootcamp": {
+                  "type": "string",
+                  "example": "Bootcamp de Desarrollo Web"
+                }
+              }
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Estudiante creado exitosamente",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "id": {
+                  "type": "number",
+                  "example": 1
+                },
+                "nombre": {
+                  "type": "string",
+                  "example": "Juan Perez"
+                },
+                "email": {
+                  "type": "string",
+                  "example": "juan.perez@example.com"
+                },
+                "bootcamp": {
+                  "type": "string",
+                  "example": "Bootcamp de Desarrollo Web"
+                }
+              },
+              "xml": {
+                "name": "main"
+              }
+            }
+          },
+          "400": {
+            "description": "Faltan campos obligatorios en la solicitud",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "error": {
+                  "type": "string",
+                  "example": "Hay algun campo incompleto"
+                }
+              },
+              "xml": {
+                "name": "main"
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/estudiantes/{id}": {
+      "get": {
+        "tags": [
+          "Estudiantes"
+        ],
+        "summary": "Obtener un estudiante por su ID",
+        "description": "Endpoint para obtener un estudiante específico utilizando su ID",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "type": "number",
+            "description": "ID del estudiante"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Estudiante encontrado exitosamente",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "id": {
+                  "type": "number",
+                  "example": 1
+                },
+                "nombre": {
+                  "type": "string",
+                  "example": "Juan Perez"
+                },
+                "email": {
+                  "type": "string",
+                  "example": "juan.perez@example.com"
+                },
+                "bootcamp": {
+                  "type": "string",
+                  "example": "Bootcamp de Desarrollo Web"
+                }
+              },
+              "xml": {
+                "name": "main"
+              }
+            }
+          },
+          "400": {
+            "description": "El ID proporcionado no es un número válido",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "error": {
+                  "type": "string",
+                  "example": "El id debe de ser un valor"
+                }
+              },
+              "xml": {
+                "name": "main"
+              }
+            }
+          },
+          "404": {
+            "description": "Not Found"
+          }
+        }
+      },
+      "put": {
+        "tags": [
+          "Estudiantes"
+        ],
+        "summary": "Actualizar un estudiante existente",
+        "description": "Endpoint para actualizar un estudiante existente",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "type": "number",
+            "description": "ID del estudiante a actualizar"
+          },
+          {
+            "name": "body",
+            "in": "body",
+            "description": "Datos actualizados del estudiante",
+            "required": true,
+            "schema": {
+              "type": "object",
+              "properties": {
+                "nombre": {
+                  "type": "string",
+                  "example": "Juan Perez"
+                },
+                "email": {
+                  "type": "string",
+                  "example": "juan.perez@example.com"
+                },
+                "bootcamp": {
+                  "type": "string",
+                  "example": "Bootcamp de Desarrollo Web"
+                }
+              }
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Estudiante actualizado exitosamente",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "id": {
+                  "type": "number",
+                  "example": 1
+                },
+                "nombre": {
+                  "type": "string",
+                  "example": "Juan Perez"
+                },
+                "email": {
+                  "type": "string",
+                  "example": "juan.perez@example.com"
+                },
+                "bootcamp": {
+                  "type": "string",
+                  "example": "Bootcamp de Desarrollo Web"
+                }
+              },
+              "xml": {
+                "name": "main"
+              }
+            }
+          },
+          "404": {
+            "description": "Estudiante no encontrado",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "error": {
+                  "type": "string",
+                  "example": "Estudiante no encontrado"
+                }
+              },
+              "xml": {
+                "name": "main"
+              }
+            }
+          }
+        }
+      },
+      "delete": {
+        "tags": [
+          "Estudiantes"
+        ],
+        "summary": "Eliminar un estudiante existente",
+        "description": "Endpoint para eliminar un estudiante existente",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "type": "number",
+            "description": "ID del estudiante a eliminar"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Estudiante eliminado exitosamente",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "id": {
+                  "type": "number",
+                  "example": 1
+                },
+                "nombre": {
+                  "type": "string",
+                  "example": "Juan Perez"
+                },
+                "email": {
+                  "type": "string",
+                  "example": "juan.perez@example.com"
+                },
+                "bootcamp": {
+                  "type": "string",
+                  "example": "Bootcamp de Desarrollo Web"
+                }
+              },
+              "xml": {
+                "name": "main"
+              }
+            }
+          },
+          "404": {
+            "description": "Estudiante no encontrado",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "error": {
+                  "type": "string",
+                  "example": "Estudiante no encontrado"
+                }
+              },
+              "xml": {
+                "name": "main"
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "hosts": "localhost:3000"
+}
