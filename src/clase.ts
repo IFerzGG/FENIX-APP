@@ -1,10 +1,11 @@
 //import { error } from "node:console";
-//import fs from "node:fs/promises"; //Crear archivo 
-//import path from "node:path"; //Crear ruta
+import fs from "node:fs"; //Crear archivo 
+import path from "node:path"; //Crear ruta
 import Express  from "express"; // Importando express desde el paquete
 import type { NextFunction, Request, Response } from "express"; // Importando los dos tipos
 import { cargarDatos } from "./data/estudiantes.data.js";
-import estudiantesRouter from "./routes/estudiantes.routes.js"
+import estudiantesRouter from "./routes/estudiantes.routes.js";
+import swaggerUi from "swagger-ui-express";
 
 const app = Express();
 const PORT = 3000;
@@ -16,6 +17,15 @@ app.use((req:Request, res:Response, next:NextFunction) => {
     console.log(`[${timesTamp}] ${req.method} / ${req.url}`);
     next();
 })
+
+const swaggerFilePath = path.resolve("./src/swagger-output.json");
+if(fs.existsSync(swaggerFilePath)) {
+    const swaggerDocumento = JSON.parse(fs.readFileSync(swaggerFilePath, "utf-8"));
+    app.use("/api-docs", swaggerUi.serve, swaggerUi.setup(swaggerDocumento));
+}
+else {
+    console.log("archivo swagger-output.json no encontrado");
+}
 
 //Jalamos todas las rutas edpoits
 app.use("/estudiantes", estudiantesRouter);
