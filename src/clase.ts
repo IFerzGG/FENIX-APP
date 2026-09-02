@@ -6,10 +6,15 @@ import type { NextFunction, Request, Response } from "express"; // Importando lo
 import { cargarDatos } from "./data/estudiantes.data.js";
 import estudiantesRouter from "./routes/estudiantes.routes.js";
 import swaggerUi from "swagger-ui-express";
+import dotenv from "dotenv";
+import cors from "cors";
+
+dotenv.config();
 
 const app = Express();
-const PORT = 3000;
+const PORT = process.env.PORT || 8080;
 app.use(Express.json()); //Nuestro Middleware
+app.use(cors({origin: "*"})); //Si queremos que nuestra API sea consumida desde cualquier origen
 
 //Middleware para registrar las peticiones que se realizan
 app.use((req:Request, res:Response, next:NextFunction) => {
@@ -33,6 +38,8 @@ app.use("/estudiantes", estudiantesRouter);
 app.listen(PORT, async() => {
     await cargarDatos();
     console.log(`Servidor ejecutándose en http://localhost:${PORT}`);
+    console.log(`Modo Ejecución: ${process.env.NODE_ENV}`);
+    console.log(`Clave API: ${process.env.API_KEY ? "si" : "no"}`);
 });
 
 //Funcion para leer el archivo JSON y convertir en un array estudiantes con async

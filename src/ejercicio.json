@@ -1,14 +1,1 @@
-[
-  {
-    "id": 1,
-    "nombre": "Kevin",
-    "pais": "Bolivia",
-    "edad": 23,
-    "activo": true,
-    "notas": [
-      80,
-      90,
-      75
-    ]
-  }
-]
+[]

@@ -1,3 +1,5 @@
+import fs from "node:fs/promises";
+import path from "node:path";
 import {Router} from "express";
 import type {Request, Response} from "express";
 import type { 
@@ -11,6 +13,13 @@ const router = Router();
 
 let estudiantes:Estudiante[] = [];
 
+const leerDatos = async (): Promise<Estudiante[]> => {
+        const ruta = path.resolve("src/ejercicio.json");
+        const texto = await fs.readFile(ruta,"utf8");
+        const resultado: Estudiante[] = JSON.parse(texto);
+        return resultado;
+    }
+
 router.get("/status", (req:Request, res:Response) => {
     res.json({
         status:"Servidor en Linea",
@@ -18,7 +27,7 @@ router.get("/status", (req:Request, res:Response) => {
     });
 });
 
-router.get("/", (req:Request<{},{},{},estudianteFiltrado>, res:Response) => {
+router.get("/", async(req:Request<{},{},{},estudianteFiltrado>, res:Response) => {
     /*
     #swagger.tags = ['Estudiantes']
     #swagger.summary = 'Obtener todos los estudiantes o filtrarlos'
@@ -39,6 +48,7 @@ router.get("/", (req:Request<{},{},{},estudianteFiltrado>, res:Response) => {
         type: 'string',
     }
     */
+    estudiantes = await leerDatos();
     const {nombre, email, bootcamp} = req.query;
     let resultadoFiltro = [...estudiantes];
     if(nombre){
@@ -138,6 +148,13 @@ router.post("/", (req:Request<{},{},crearEstudiante>, res:Response) => {
         bootcamp,
     }
     estudiantes.push(nuevoEstudiante);
+    
+    const crearJason = async () => {
+        const ruta = path.resolve("src/ejercicio.json");
+        const contenidoJason = JSON.stringify(estudiantes,null,2);
+        await fs.writeFile(ruta,contenidoJason,"utf8");
+    }
+    crearJason();
     res.status(200).json(nuevoEstudiante);
 });
 
@@ -190,6 +207,12 @@ router.put("/:id", (req:Request<{id:string},{},actualizarEstudiante>, res:Respon
         email: email ?? estudiantes[index]?.email,
         bootcamp: bootcamp ?? estudiantes[index]?.bootcamp
     }
+    const actualizarJason = async () => {
+        const ruta = path.resolve("src/ejercicio.json");
+        const contenidoJason = JSON.stringify(estudiantes,null,2);
+        await fs.writeFile(ruta,contenidoJason,"utf8");
+    }
+    actualizarJason();
     res.status(200).json(estudiantes[index]);
 });
 
@@ -227,6 +250,14 @@ router.delete("/:id", (req:Request,res:Response) =>{
     }
     const eliminado = estudiantes[index];
     estudiantes = estudiantes.filter((e) => e.id !==id );
+
+    const BorrarJason = async () => {
+        const ruta = path.resolve("src/ejercicio.json");
+        const contenidoJason = JSON.stringify(estudiantes,null,2);
+        await fs.writeFile(ruta,contenidoJason,"utf8");
+    }
+
+    BorrarJason();
     res.status(200).json(eliminado);
 });
 
